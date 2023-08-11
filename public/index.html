@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Bootstrap/bootstrap.css">
+    <script src="Bootstrap/bootstrap.js"></script>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="../bootstrap-5.3.0-alpha1-dist/css/bootstrap.css">
+    </head>
+
+    <body>
+        <div class="container-fluid mx-auto shadow-sm col-11 col-lg-7 col-md-7 shadow mt-5">
+            <h1 class=" text-center text-decoration-underline text-primary">Todo Pro</h1>
+            <div class="my-2 py-1 alert alert-danger text-center" style="display: none" id="showError">Please fill in
+                appropriately</div>
+            <div class="form-floating mb-3 col-5 w-100">
+                <input type="text" class="form-control" id="todoName">
+                <label for="todoName">Enter Your Todo</label>
+            </div>
+            <div class="form-floating mb-3 col-5 w-100">
+                <input type="text" class="form-control" id="todoDetails">
+                <label for="todoDetails">Enter Your Todo Details</label>
+            </div>
+            <div class="my-3">
+                <button class="btn btn-primary w-100" onclick="addTodo()">Add</button>
+            </div>
+            <table class="table table-bordered table-striped" id="todoTable"></table>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="editedName">Name of Todo:</label><br>
+                        <input type="text" id="editedName" name="editedName"><br>
+                        <label for="editedDetails">Todo Details:</label><br>
+                        <input type="text" id="editedDetails" name="editedDetails"><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="update()">update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    </html>
+
+    <script type="module">
+
+        var todoArray = [];
+
+        const addTodo = () => {
+            var todoObj = {
+                todo: todoName.value,
+                details: todoDetails.value,
+                error() {
+                    document.getElementById("showError").style.display = "block"
+                },
+                dismissError() {
+                    document.getElementById("showError").style.display = "none"
+                }
+            }
+
+            if (todoName.value != "" && todoDetails.value != "") {
+                console.log(todoObj);
+                todoArray.push(todoObj)
+                displayTodo()
+                todoName.value = ""
+                todoDetails.value = ""
+                console.log(todoArray);
+                todoObj.dismissError()
+            }
+            else {
+                todoObj.error()
+            }
+        }
+        window.addTodo = addTodo;
+
+        const displayTodo = () => {
+            document.getElementById("todoTable").style.display = "table";
+            todoTable.innerHTML = ""
+            todoTable.innerHTML = `
+            <tr>
+                <th>S/N</th>
+                <th>Todo Name</th>
+                <th>Todo Details</th>
+            </tr>
+        `
+
+            for (i = 0; i < todoArray.length; i++) {
+                todo.innerHTML += `
+            <tr>
+                <td>${i + 1}</td>
+                <td>${todoArray[i].todo}</td>
+                <td>${todoArray[i].details}</td>
+            </tr>
+            `
+            }
+        }
+        window.displayTodo = displayTodo;
+
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+        import { getDatabase } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDFx0Ghx9qGPL0FLJW74rHaktRu6Po08Bg",
+            authDomain: "todo-99b6c.firebaseapp.com",
+            projectId: "todo-99b6c",
+            storageBucket: "todo-99b6c.appspot.com",
+            messagingSenderId: "54552948742",
+            appId: "1:54552948742:web:44be1f50a00b5b1c519387"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+    </script>
+</body>
+
+</html>
